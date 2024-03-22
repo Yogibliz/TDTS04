@@ -1,0 +1,5 @@
+# The important sites to update.
+
+http://zebroid.ida.liu.se/fakenews/test1.txt #Text
+http://zebroid.ida.liu.se/fakenews/test4.html #With image link
+http://zebroid.ida.liu.se/fakenews/test5.html #With embeded images

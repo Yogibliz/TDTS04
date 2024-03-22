@@ -1,0 +1,240 @@
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+1.What are the first and last packets for the POST request?
+
+By searching for POST in the find packet feature we can find the POST request and follow
+the TCP stream. In that TCP stream we can see that the stream starts with packet 4 and
+ends with packet 203.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+
+2.What is the IP address and the TCP port number used by the client computer
+(source) that is transferring the file to gaia.cs.umass.edu?
+
+The IP address of the client computer is 192.168.1.102 and the port number is 1161. All this
+can be seen on the POST request as it is the computer sending the data to the server this
+time. Other ways to see this and be sure that it is the client is by looking at the http headers
+as they indicate which is server and which is client.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+3.What is the IP address of gaia.cs.umass.edu? On what port number is it sending and receiving TCP segments for this connection?
+
+There are only two devices so the other one was the IP address of the server. We used the
+same method as the question above.  The IP address of the server was 128.119.245.12 and
+the port number was 80.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+4.What is the sequence number of the TCP SYN segment that is used toinitiate the TCP connection between the client computer and gaia.cs.umass.edu? 
+What is it in the segment that identifies the segment as a SYN segment?
+
+The raw sequence number of the SYN segment is 234062521. We searched for the word
+SYN in the find packet features. The word SYN stands in the information instead of in this
+case ACK but also under the Transmission Control Protocol in the Flag tab where it is set to “Set”.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+5.What is the sequence number of the SYNACK segment sent by gaia.cs.umass.edu to the client computer in reply to the SYN? 
+What is the value of the ACKnowledgement field in the SYNACK segment? 
+How did gaia.cs.umass.edu determine that value? 
+What is it in the segment that identifies the segment as a SYNACK segment?
+
+The raw sequence number is 883061785 and the value is 1 as seen in either the Flag tab or Acknowledgment header.
+Values in the ACKnowledgement fields are 1 and raw is: 232129013
+When it comes to the value it is determined by adding 1 to the SYN segments relative Sequence number. 
+If you look in the Flags tab there are 2 things set to “Set” or 1 in the left field meaning “True” or “Set”.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+6.What is the sequence number of the TCP segment containing the HTTP POST command?
+
+We were looking at the protocol table and looked for HTTP and POST in the information part to find the TCP segment containing the HTTP POST command. 
+The raw sequence number was 232293053 as seen under the TCP tab.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+7.Consider the TCP segment containing the HTTP POST as the first segment in the TCP connection.
+What are the sequence numbers of the first six segments in the TCP connection (including the segment containing the HTTP POST)? 
+At what time was each segment sent? When was the ACK for each segment received?
+Given the difference between when each TCP segment was sent, and when its acknowledgement was received, what is the RTT value for each of the six segments? 
+What is the EstimatedRTT value (seeSection 3.5.3, page 269 in text) after the receipt of each ACK? 
+Assume that the value of the EstimatedRTT is equal to the measured RTT for the first segment
+, and then is computed using the EstimatedRTT equation on page 270 for all subsequent segments.
+
+1)Sequence number: 232129013, Sent: 0.026477, Received: 0.053937, RTT: 0.02746, EstimatedRTT: None
+
+2)Sequence number: 232129578, Sent: 0.041737, Received: 0.077284, RTT: 0.0355557, EstimatedRTT: 0,028471962
+
+3)Sequence number: 232131038, Sent: 0.054026, Received: 0.124085, RTT: 0.070059, EstimatedRTT: 0,033670342
+
+4)Sequence number: 232132498, Sent: 0.054690, Received: 0.169118, RTT: 0.114428, EstimatedRTT: 0,043765049
+
+5)Sequence number: 232133958, Sent: 0.077405, Received: 0.217299, RTT: 0.139894, EstimatedRTT: 0,055781168
+
+6)Sequence number: 232135418, Sent: 0.078157, Received: 0.267802. RTT: 0.189645, EstimatedRTT: 0,072514147
+
+EstimatedRTT = (Previous EstimatedRTT * 0.875) + (RTT * 0.125)
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+8.What is the length of each of the first six TCP segments?
+
+By looking at the TCP table furthest to the right inside the info tab we found the length of each segment.
+
+1)Length: 565
+
+2)Length: 1460
+
+3)Length: 1460
+
+4)Length: 1460
+
+5)Length: 1460
+
+6)Length: 1460
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+9.What is the minimum amount of available buffer space advertised at the receiver for the entire trace?
+Does the lack of receiver buffer space ever throttle the sender?
+
+The minimum amount of buffer space is advertised as Calculated Window size and set to 5840.
+The lack of reciever buffer space does not throttle the sender.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+10. Are there any retransmitted segments in the trace file? 
+What did you check for (in the trace) in order to answer this question?
+
+Sequence numbers allign as they should indicating no packet loss. Which means there were no packets sent more than once.
+The only thing sent more than once is there server confimations which have a segment length of 0.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+11. How much data does the receiver typically acknowledge in an ACK? 
+Can you identify cases where the receiver is ACKing every other received segment (see Table 3.2 on page 278 in the text).
+
+480 bits.
+No.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+12. What is the throughput (bytes transferred per unit time) for the TCP connection?
+Explain how you calculated this value.
+
+164000 bytes / 5.65s (seconds)
+
+~29026.55 bytes/s
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+TASK A:
+
+We had barely any issues with the first few number of questions. We felt that we knew pretty well where to look
+for answers and using the search function made that even easier for us. However when we came to question number 7
+things slowed down a lot. We had lots of trouble figuring out which packet contained the HTTP POST command.
+At first we assumed it was the packet quite far down that actually contained HTTP and even had POST
+written in the packet info. So for some time we were answering the questions while looking at the wrong packets.
+Evetually we realised our mistake and managed to find the correct(?) packet much further up. 
+
+After that we had a lot of trouble figuring out how to interpret the different tags containing information
+abput the time that the packet was sent/recieved. We expected there to be a distinct "Time Sent" and "Arrival Time" or
+something along those lines. Arrival time is present in the tcp segments but anything relating to when it was sent seemed 
+absent. We did in the end look under the "Timestamps" field and found the field "TIme since first frame in this tcp stream"
+where we found more useful information. We gathered the timestamp which was we sent to the server 1161 -> 80 and took the timestamp
+from the acknowledgement by the server 80 -> 1161 as recieved. After that we found our answers to the remaining questions without any real
+difficulty. We think the way sequence numbers are handled and how they can be used to identify packet-loss is very practical.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+13. Use the Time-Sequence-Graph (Stevens) plotting tool to view the sequence number versus time plot of segments being sent from the client to the gaia.cs.umass.edu server. 
+Can you identify if and where TCP's slow start phase begins and ends, as well as if and where congestion avoidance takes over? 
+Comment on ways in which the measured data differs from the idealized behavior of TCP that we've studied in the text. 
+
+TCP's slow start phase begins at the first package sent (1) and ends around packet (13) and continues like this when it gets new packets to send. 
+But for the later packets congestion takes over as it already knows the speed which to use and therefor the others aren't graphed as steps and instead as straight lines.
+
+Ideally everything would be sent as fast as possible right after each other, but in our graph it's seen more like a ladder or stairs, since it seems to waits for confimations.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+14. Explain the relationship between (i) the congestion window (cwnd), (ii) the receiver advertised window (rwnd), (iii) the number of unacknowledged bytes
+, and (iv) the effective window at the sender (i.e., the window effectively limiting the data transmission). 
+
+
+(i) is the amount of data that tcp can send into the network without recieving an ACK. (ii) is the amount of data that the receiver
+advertises that it can recieve, so (ii) is related to the recievers own limitations while (i) is the tcp protocols limitations.
+These both affect (iii) the number of bytes that can be sent before the previous ones have been ACKed by the reciever since if the 
+congestion window is larger then more packets are sent at once before waiting for ACKs. This is what then becomes the effective transmission window (iv).
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+15. Is it generally possible to find the congestion window size (cwnd) and how it changes with time, from the captured trace files? 
+If so, please explain how. If not, please explain when and when not. 
+Motivate your answer and give examples. 
+
+It is possible to se the congestion window change in the traced files. In the graph shown a decrease in window size would show as
+less packets being sent before waiting for reciever acknowledgement.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+16. What is the throughput of each of the connections in bps (bits per second)? 
+What is the total bandwidth of the host on which the clients are running? 
+Discuss the TCP fairness for this case.
+
+bps as (bits per second)
+
+1) 2535059 bps
+
+2) 2546530 bps
+
+3) 2575234 bps
+
+4) 2550559 bps
+
+Total: 10207382 bps
+
+The bandwidth is roughly divided in the number of clients to ensure everyone is able to download at a fair speed.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+17. What is the throughput of each of the connections in bps (bits per second)? 
+What is the total bandwidth of the host on which the clients are running? Discuss the TCP fairness for this case.
+
+bps as (bits per second)
+
+1) 232020 bps
+
+2) 156661 bps
+
+3) 135470 bps
+
+4) 124466 bps
+
+5) 96515 bps
+
+6) 62550 bps
+
+7) 58449 bps
+
+8) 38403 bps
+
+9) 34818 bps
+
+Total: 798351 bps
+
+In this case the shorter the RTT a connection has the greater amount of the bandwidth it gains access to. This is because
+a faster RTT will allow the connection to use the bandwidth more effectively (capable of greater bps) while a slower connection
+will more often than not be stalled by having to wait for the sender to recieve ACKs being sent by the client.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+18. Discuss the TCP fairness for this case. How does it differ from the previous cases, and how is it affected by the use of BitTorrent?
+
+When a file is downloaded with Bittorrents p2p if finds multiple different hosts with the file present.
+This case differs from the others in that multiple connections with different hosts have been established
+for the download of a single file. This leads to the bandwidth being split between all of the hosts, to download at a fair rate for each
+of these, instead of having one host where all the bandiwth is poured. RTT further delays the downloads in cases the hosts which have larger parts
+of the files have a high RTT.

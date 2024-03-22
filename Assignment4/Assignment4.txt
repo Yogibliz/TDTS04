@@ -1,0 +1,41 @@
+# These might not be 100% accurate, please double check.
+
+(i) How does distance vector routing work?
+in distance vector routing, unlike link-state routing no node has complete image of the network and the costs of
+all connections between nodes. In distance vector routing each node makes it's routing decisions based on only the costs
+it has as well as costs of nodes that are direct neighbours. If Node A can reach node B directly with a cost of 5, reach node
+C directly with a cost of 2, and node C can reach node B directly with a cost of 2 then if we were to route from node A to node B
+the most costefficient route would be for A to route through node C and into B. If you were to compare distance vector routing and
+link-state routing you could say that DVR makes the routing desicion based on two steps in the network which recursively builds the
+complete optimal route to take while link-state routing has each node make an independant routing desicion based on all connection
+costs from each of the nodes needed to connect  node X and Y. DVR is less performance heavy than link-state routing but has a slower
+convergence. Meaning that if a change is made on the network it takes longer for all nodes in the network to update their values.
+DVR is also vulnerable to loops such as the count-to-infinity problem.
+
+(ii) How did you test the algorithms?
+We tested the program by making comparisons with provided examples as well as checking that the calculations being performed
+gave the desired result, which we did manually. We did not use a test-framework to test each of our programs functions
+individually. Either way the program does perform as intended but the use of a test-framework may have shortened the amount of time
+spent on testing overall since detecting an issue in the program is easier when you can test functions individually in a smooth and easy way.
+
+(iii) What are some cases in which poisoned reverse may fail?
+Poisoned reverse may fail if a network node A is only connected to one other node within the network.
+If that connection goes down then the node it was connected to may try to go around the down link
+by routing through a different node that has a cost value assigned to the node A before the link went down and that has
+yet to recieve an update. Poisioned reverse does not on it's own solve all cases of loops but does prevent them to a degree
+and is used in combination with other algorithms to make loops as unlikely as possible.
+
+(iv) What is a solution to this problem?
+There is another routing protocol known as RIP (Routing Information Protocol) where this issue is prevented by
+limiting the number of hops that a route can take to 15. If hop count reaches 16 then the network is considered unreachable.
+The number of hops is the same as the number of nodes that need to be traversed from the source to the destination.
+Split horizon is also an algorithm that can be used in conjunction with posioned reverse and it can be describe with one clear
+principle. Routing information is never to be sent back in the direction from which it was recived.
+Packets also have a field called TTL (Time To Live) which is an amount of time. After that amount of time has passed since the packet
+beign sent it should disregarded and dropped instantly. This prevents packet from staying in infinite loops if they were to occur.
+
+https://www.geeksforgeeks.org/routing-information-protocol-rip/
+https://www.geeksforgeeks.org/what-is-poison-reverse-in-networking/
+https://www.techtarget.com/searchnetworking/definition/split-horizon
+https://www.catchpoint.com/dynamic-routing-protocols/split-horizon
+

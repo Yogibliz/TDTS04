@@ -1,0 +1,159 @@
+# For future use of this file, you might want to remove these as we used them as reference in the questions, you could use them or just refer to the file
+since they're given to everyone.
+
+No.     Time           Source                Destination           Protocol Length Info
+10      4.694850       192.168.1.102         128.119.245.12        HTTP     555    GET /ethereal-labs/lab2-1.html HTTP/1.1 
+
+Frame 10: 555 bytes on wire (4440 bits), 555 bytes captured (4440 bits)
+Ethernet II, Src: Dell_4f:36:23 (00:08:74:4f:36:23), Dst: LinksysG_da:af:73 (00:06:25:da:af:73)
+Internet Protocol Version 4, Src: 192.168.1.102, Dst: 128.119.245.12
+Transmission Control Protocol, Src Port: 4127, Dst Port: 80, Seq: 1, Ack: 1, Len: 501
+Hypertext Transfer Protocol
+    GET /ethereal-labs/lab2-1.html HTTP/1.1\r\n
+    Host: gaia.cs.umass.edu\r\n
+    User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.0.2) Gecko/20021120 Netscape/7.01\r\n
+    Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,video/x-mng,image/png,image/jpeg,image/gif;q=0.2,text/css,*/*;q=0.1\r\n
+    Accept-Language: en-us, en;q=0.50\r\n
+    Accept-Encoding: gzip, deflate, compress;q=0.9\r\n
+    Accept-Charset: ISO-8859-1, utf-8;q=0.66, *;q=0.66\r\n
+    Keep-Alive: 300\r\n
+    Connection: keep-alive\r\n
+    \r\n
+    [Full request URI: http://gaia.cs.umass.edu/ethereal-labs/lab2-1.html]
+    [HTTP request 1/1]
+    [Response in frame: 12]
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+No.     Time           Source                Destination           Protocol Length Info
+12      4.718993       128.119.245.12        192.168.1.102         HTTP     439    HTTP/1.1 200 OK  (text/html)
+
+Frame 12: 439 bytes on wire (3512 bits), 439 bytes captured (3512 bits)
+Ethernet II, Src: LinksysG_da:af:73 (00:06:25:da:af:73), Dst: Dell_4f:36:23 (00:08:74:4f:36:23)
+Internet Protocol Version 4, Src: 128.119.245.12, Dst: 192.168.1.102
+Transmission Control Protocol, Src Port: 80, Dst Port: 4127, Seq: 1, Ack: 502, Len: 385
+Hypertext Transfer Protocol
+    HTTP/1.1 200 OK\r\n
+    Date: Tue, 23 Sep 2003 05:29:50 GMT\r\n
+    Server: Apache/2.0.40 (Red Hat Linux)\r\n
+    Last-Modified: Tue, 23 Sep 2003 05:29:00 GMT\r\n
+    ETag: "1bfed-49-79d5bf00"\r\n
+    Accept-Ranges: bytes\r\n
+    Content-Length: 73\r\n
+    Keep-Alive: timeout=10, max=100\r\n
+    Connection: Keep-Alive\r\n
+    Content-Type: text/html; charset=ISO-8859-1\r\n
+    \r\n
+    [HTTP response 1/1]
+    [Time since request: 0.024143000 seconds]
+    [Request in frame: 10]
+    [Request URI: http://gaia.cs.umass.edu/ethereal-labs/lab2-1.html]
+    File Data: 73 bytes
+Line-based text data: text/html (3 lines)
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+Questions:
+
+1. The Firefox browser is running HTTP 1.1, since the get request is going through the HTTP 1.1 protocol.
+The server also seems to be running HTTP 1.1, since the "200 OK" message is sent though the HTTP 1.1 protocol aswell.
+
+2. Under the Accept-Language header in the first HTTP request it states en-us, so american english, but it also just says en. So we'd guess any type of english. 
+(At line 13 in this file) Users Web browser Mozilla/5.0 (at line 11, in this file), Operating systems for the user: Windows NT 5.1 (at line 11, in this file) 
+and server: Apache/2.0.40 (Red Hat Linux, Line 35 in this file).
+
+3. IP adresses for the user: 192.168.1.102 and server: 128.119.245.12 (We found this information in the header at line 2, in this file).
+
+4. Status "200 OK", is returned from the server, indicating a success.
+
+5. We found Last-Modified: Tue, 23 Sep 2003 05:29:00 GMT (at line 36 in this file.)
+
+6. Under length it says 439 aswell as after it states 439 bytes (at line 28 in this file)
+
+7. We found none.
+
+TASK A:
+
+We first tried answering the questions using a capture from our own device. We noticed when trying to answer question number 5 that we were missing the "last modified"
+tag in our packet. From this we have concluded that http does not require all possible tags to be sent. As an example we would have imagined that a "last modified" tag 
+would have been sent but simply being empty in some way. 
+We were also somewhat surprised by the fact that a accepted language is something that is sent to the server considering considering the character encoding is 
+sent as well, so we are unsure exactly what the tag is used for. Since we imagine with utf-8 being the charset the information will be the same. Is it perhaps
+connected to the geographical location of the client.
+We were also not expecting to recieve the servers running operating system. We believe it is irrelevant to the client in most ways what the server is running, only
+what it respons with should be relevant to the user. On the other hand we think that the client operating system/browser being sent is more relevant to making a website
+behave differently depending on operating system/browser being used. And we imagine it can be used for statistics purposes.
+IP addresses are ofcourse shared since the server needs to know where to send the response.
+Recieving some kind of status code is a great way to know somewhat what has occured on the other side on the server. If the request has gone through, if it hasnt
+or if there were any other issues/complications. Our status code was 200, which means OK everything went as expected. There are other codes such as 404 which means 
+the file path was not found.
+Then length of the file recieved is a great value to get, this is a way to make sure you don't get an insanely huge file, or smaller than it should be.
+
+Questions:
+
+8. No.
+
+9. We get a tab called "Line-based text data: text/html" where we can see what data is sent within <html> tags. Since the second time we get the returned data, it doesn't
+include the "line-based text data" tab with all the data, since it doesn't send it twice.
+
+10. Yes, we can see the If-Modified-Since tag. It includes the date of the latest time you got the file. And if it hasn't modified since it'll send a copy, otherwise it'll
+send the new file.
+
+11. 304 Not modified is returned from the server. The server didn't return the "Line-based text data" tab this time. We suspect that the file's download link is saved
+in the cache of the browser, since bigger files wouldn't be able to be saved entirely in the cache memory. But since this is a smaller file, it's contained entirely
+within the cache memory. 
+
+TASK B:
+
+We looked through the first GET request and couldn't find a If-Modified-Since tag, thus the short answer. The date sent from the server is later used for the 
+If-Modified-Since tag for the second GET request. If the file hasn't modified since the last GET request it won't send back the file again, it'll return HTTP Code 304
+meaning "Not Modified" which indicates that the file in the local cache is still valid. Thus the file is not downloaded from the server again, to not strain the server,
+it'll get the download through the local cache. 
+
+Questions:
+
+12. The browser sent 1 GET request. We guess that the package number refers to the Frame numbers in WireShark. And suppose that Frame 8 in the GET request contains 
+the packet number for the Bill of Rights message.
+
+13. Frame 10 contains the HTTP status code 200 (OK).
+
+14. 4 TCP Segments, 3 of which are 1460 bytes and 1 which is 436 bytes.
+
+15. We can't see any header information about TCP segmentation.
+
+TASK C:
+
+The term "trace" is new to us, from reading we have concluded that a trace is all of the information sent/recieved is documented in the tracealong with the 
+packet number, which is the same as a "frame". Since the status is sent almost first, only second to the HTTP version. It always ends up in the first packet sent in our
+observations. The packets sent were split into 4 TCP Segments since the total size was too large for a single package. Thus it split it into 3 packages of the same size (1460 bytes) 
+and the excess was but into the last package (436 bytes). Even before answering question 15 we assumed that HTTP doesnt "know" that it has been divded into multiple packets.
+We thought so because the HTTP-message itself is generated in the application-layer while TCP/packet division seems to act in the network-layer.
+
+Questions:
+
+16. We have 3 GET requests in total. Destination for the first GET request is 128.119.245.12, the second one is 165.193.123.218, and the third is 134.241.6.82.
+
+17. Looking at the Arrival time, they are only partial milliseconds apart, which we assume mean they are parallel since we can't see how a gif is downloaded in less than a millisecond.
+
+TASK D:
+
+There is a html file sent, which includes 2 img tags, where one is a GIF and one is a JPG, these files are sent separetly since they are on other servers than the html body, as you can see in 
+the answer to question 16. And we assume they're both being downloaded in parallel since they are only parts of a millisecond apart in Arrival Time, meaning it would have to download either a GIF
+or JPG less than a millisecond which we can't see happening.
+
+Questions:
+
+18. 401 Authorization Required.
+
+19. The Authorization tag is now included.
+
+TASK E:
+
+We had not thought much about security in HTTP before answering these questions. But on second thought it makes sense that a server may require some kind of verification
+that the user is supposed to have access to the data that is to be retrieved. Although we wonder what the differences are between this and HTTPS. We imagine that HTTPS is a secure way to send
+data while this authorization is to prevent data access.
+
+Questions:
+
+20. Connection keep-alive is used when making multiple requests, and Connection-close is used when making a request and then closing the connection right after.
+Therefor the keep-alive is used when expecting multiple requests and close when you know there's only supposed to be one request.

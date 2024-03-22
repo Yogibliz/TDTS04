@@ -1,0 +1,7 @@
+#Linux
+1. Install latest Python version
+2. sudo apt-get install python3-tk 
+
+#Windows
+1. Install Latest Python version
+2. pip install tk
